@@ -1,138 +1,444 @@
-<div align="center">
-	<a href="https://frappe.io/hr">
-		<img src=".github/frappe-hr-logo.png" height="80px" width="80px" alt="Frappe HR Logo">
-	</a>
-	<h2>Frappe HR</h2>
-	<p align="center">
-		<p>Open Source, modern, and easy-to-use HR and Payroll Software</p>
-	</p>
+# Frappe HR - Kolay Kurulum
 
-[![CI](https://github.com/frappe/hrms/actions/workflows/ci.yml/badge.svg?branch=develop)](https://github.com/frappe/hrms/actions/workflows/ci.yml)
-[![codecov](https://codecov.io/gh/frappe/hrms/branch/develop/graph/badge.svg?token=0TwvyUg3I5)](https://codecov.io/gh/frappe/hrms)
+Frappe HR; çalışan yönetimi, izin, devam takibi, performans, işe alım ve bordro modülleri içeren açık kaynaklı bir insan kaynakları uygulamasıdır.
 
-<a href="https://trendshift.io/repositories/10972" target="_blank"><img src="https://trendshift.io/api/badge/repositories/10972" alt="frappe%2Fhrms | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
-</div>
+Bu depo, Frappe HR'nin Docker ile kolay kurulumu için hazırlanmıştır.
 
-<div align="center">
-	<img src=".github/hrms-hero.png"/>
-</div>
+## Özellikler
 
-<div align="center">
-	<a href="https://frappe.io/hr">Website</a>
-	-
-	<a href="https://docs.frappe.io/hr/introduction">Documentation</a>
-</div>
+- Çalışan yönetimi
+- Departman ve pozisyon yönetimi
+- İzin ve onay süreçleri
+- Puantaj ve devam takibi
+- Performans değerlendirme
+- İşe alım
+- Maaş yapıları
+- Bordro hesaplama
+- Vergi ve kesinti tanımları
+- ERPNext entegrasyonu
+- Kullanıcı rolleri ve yetkileri
+- Yerel ağ üzerinden kullanım
 
-## Frappe HR
+> Frappe HR'nin bordro motoru genel amaçlıdır. Türkiye SGK, vergi, bordro ve resmi bildirim süreçleri için ayrıca mevzuat kontrolü ve muhasebe uzmanı doğrulaması gerekir.
 
-Frappe HR has everything you need to drive excellence within the company. It's a complete HRMS solution with over 13 different modules right from Employee Management, Onboarding, Leaves, to Payroll, Taxation, and more!
+---
 
-## Motivation
-When Frappe team started growing in terms of size, we needed an open-source HR and Payroll software. We didn't find any "true" open-source HR software out there and so decided to build one ourselves.
-Initially, it was a set of modules within ERPNext but version 14 onwards, as the modules became more mature, Frappe HR was created as a separate product.
+## Gereksinimler
 
-## Key Features
+### Linux / Kali Linux
 
-- **Employee Lifecycle**: From onboarding employees, managing promotions and transfers, all the way to documenting feedback with exit interviews, make life easier for employees throughout their life cycle.
-- **Leave and Attendance**: Configure leave policies, pull regional holidays with a click, check-in and check-out with geolocation capturing, track leave balances and attendance with reports.
-- **Expense Claims and Advances**: Manage employee advances, claim expenses, configure multi-level approval workflows, all this with seamless integration with ERPNext accounting.
-- **Performance Management**: Track goals, align goals with key result areas (KRAs), enable employees to evaluate themselves, make managing appraisal cycles easy.
-- **Payroll & Taxation**: Create salary structures, configure income tax slabs, run standard payroll, accommodate additional salaries and off cycle payments, view income breakup on salary slips and so much more.
-- **Frappe HR Mobile App**: Apply for and approve leaves on the go, check-in and check-out, access employee profile right from the mobile app.
+- Docker Engine
+- Docker Compose
+- Git
+- En az 4 GB RAM
+- En az 10 GB boş disk alanı
 
-<details open>
+### Windows
 
-<summary>View Screenshots</summary>
-	<img src=".github/hrms-appraisal.png"/>
-	<img src=".github/hrms-requisition.png"/>
-	<img src=".github/hrms-attendance.png"/>
-	<img src=".github/hrms-salary.png"/>
-	<img src=".github/hrms-pwa.png"/>
-</details>
+Windows üzerinde Docker Desktop kurulmalıdır.
 
-### Under the Hood
+Docker Desktop kurulduktan sonra PowerShell veya Git Bash kullanılabilir.
 
-- [**Frappe Framework**](https://github.com/frappe/frappe): A full-stack web application framework written in Python and Javascript. The framework provides a robust foundation for building web applications, including a database abstraction layer, user authentication, and a REST API.
+---
 
-- [**Frappe UI**](https://github.com/frappe/frappe-ui): A Vue-based UI library, to provide a modern user interface. The Frappe UI library provides a variety of components that can be used to build single-page applications on top of the Frappe Framework.
+## Linux / Kali Linux kurulumu
 
-## Production Setup
+Docker kurulu değilse:
 
-### Managed Hosting
-
-You can try [Frappe Cloud](https://frappecloud.com), a simple, user-friendly and sophisticated [open-source](https://github.com/frappe/press) platform to host Frappe applications with peace of mind.
-
-It takes care of installation, setup, upgrades, monitoring, maintenance and support of your Frappe deployments. It is a fully featured developer platform with an ability to manage and control multiple Frappe deployments.
-
-<div>
-	<a href="https://frappecloud.com/hrms/signup" target="_blank">
-		<picture>
-			<source media="(prefers-color-scheme: dark)" srcset="https://frappe.io/files/try-on-fc-white.png">
-			<img src="https://frappe.io/files/try-on-fc-black.png" alt="Try on Frappe Cloud" height="28" />
-		</picture>
-	</a>
-</div>
-
-
-## Development setup
-### Docker
-You need Docker, docker-compose and git setup on your machine. Refer [Docker documentation](https://docs.docker.com/). After that, run the following commands:
-```
-git clone https://github.com/frappe/hrms
-cd hrms/docker
-docker-compose up
+```bash
+sudo apt update
+sudo apt install -y docker.io docker-compose git
 ```
 
-Wait for some time until the setup script creates a site. After that you can access `http://localhost:8000` in your browser and the login screen for HR should show up.
+Docker servisini başlat:
 
-Use the following credentials to log in:
+```bash
+sudo systemctl enable --now docker
+```
 
-- Username: `Administrator`
-- Password: `admin`
+Docker durumunu kontrol et:
 
-### Local
+```bash
+sudo systemctl status docker
+```
 
-1. Set up bench by following the [Installation Steps](https://frappeframework.com/docs/user/en/installation) and start the server and keep it running
-	```sh
-	$ bench start
-	```
-2. In a separate terminal window, run the following commands
-	```sh
-	$ bench new-site hrms.localhost
-	$ bench get-app erpnext
-	$ bench get-app hrms
-	$ bench --site hrms.localhost install-app hrms
-	$ bench --site hrms.localhost add-to-hosts
-	```
-3. You can access the site at `http://hrms.localhost:8080`
+Kullanıcını Docker grubuna ekle:
 
-## Learning and Community
+```bash
+sudo usermod -aG docker $USER
+```
 
-1. [Frappe School](https://frappe.school) - Learn Frappe Framework and ERPNext from the various courses by the maintainers or from the community.
-2. [Documentation](https://docs.frappe.io/hr) - Extensive documentation for Frappe HR.
-3. [User Forum](https://discuss.erpnext.com/) - Engage with the community of ERPNext users and service providers.
-4. [Telegram Group](https://t.me/frappehr) - Get instant help from the community of users.
+Sonra oturumu kapatıp tekrar aç veya:
 
+```bash
+newgrp docker
+```
 
-## Contributing
+Docker testi:
 
-1. [Issue Guidelines](https://github.com/frappe/erpnext/wiki/Issue-Guidelines)
-1. [Report Security Vulnerabilities](https://erpnext.com/security)
-1. [Pull Request Requirements](https://github.com/frappe/erpnext/wiki/Contribution-Guidelines)
+```bash
+docker run --rm hello-world
+```
 
+---
 
-## Logo and Trademark Policy
+## Projeyi indirme
 
-Please read our [Logo and Trademark Policy](TRADEMARK_POLICY.md).
+Bu fork'un GitHub adresini kullan:
 
-<br />
-<br />
-<div align="center" style="padding-top: 0.75rem;">
-	<a href="https://frappe.io" target="_blank">
-		<picture>
-			<source media="(prefers-color-scheme: dark)" srcset="https://frappe.io/files/Frappe-white.png">
-			<img src="https://frappe.io/files/Frappe-black.png" alt="Frappe Technologies" height="28"/>
-		</picture>
-	</a>
-</div>
+```bash
+git clone https://github.com/wantedhg/Frappe_hrms
+cd Frappe_hrms/docker
+```
 
+> `https://github.com/wantedhg/Frappe_hrms` yerine bu deponun kendi GitHub clone adresini yazın.
+
+---
+
+## Kurulum
+
+Docker Compose ile servisleri başlat:
+
+```bash
+docker compose up -d
+```
+
+Eski Docker Compose sürümü kullanıyorsanız:
+
+```bash
+docker-compose up -d
+```
+
+Container durumlarını kontrol et:
+
+```bash
+docker compose ps
+```
+
+Şu servislerin `Up` veya `running` görünmesi gerekir:
+
+- frappe
+- mariadb
+- redis
+
+Kurulum loglarını takip etmek için:
+
+```bash
+docker compose logs -f frappe
+```
+
+Kurulum tamamlandığında şu mesajı görmelisiniz:
+
+```text
+Thank you for installing Frappe HR!
+```
+
+---
+
+## Web arayüzüne giriş
+
+Önce şu adresi deneyin:
+
+```text
+http://localhost:8000
+```
+
+Çalışmazsa:
+
+```text
+http://127.0.0.1:8000
+```
+
+Frappe site adı kullanılıyorsa:
+
+```text
+http://hrms.localhost:8000
+```
+
+Linux'ta `hrms.localhost` çalışmazsa:
+
+```bash
+echo "127.0.0.1 hrms.localhost" | sudo tee -a /etc/hosts
+```
+
+Sonra tarayıcıda:
+
+```text
+http://hrms.localhost:8000
+```
+
+### İlk giriş
+
+```text
+Kullanıcı adı: Administrator
+Parola: admin
+```
+
+İlk girişten sonra yönetici parolasını mutlaka değiştirin.
+
+---
+
+## Web servisi dışarıdan erişilemiyorsa
+
+Bazı kurulumlarda Frappe web servisi container içinde yalnızca `127.0.0.1` adresinde çalışabilir.
+
+Bu durumda Procfile dosyalarını düzeltin:
+
+```bash
+docker compose exec frappe sh -lc '
+for f in \
+/home/frappe/frappe-bench/Procfile \
+/home/frappe/frappe-bench/frappe-bench/Procfile
+do
+  if [ -f "$f" ]; then
+    sed -i "s|^web:.*|web: bench serve --host 0.0.0.0 --port 8000|" "$f"
+  fi
+done
+'
+```
+
+Değişikliği kontrol edin:
+
+```bash
+docker compose exec frappe sh -lc \
+'grep -R "^web:" /home/frappe/frappe-bench 2>/dev/null'
+```
+
+Frappe servisini yeniden başlatın:
+
+```bash
+docker compose restart frappe
+```
+
+Yaklaşık 10 saniye bekleyin:
+
+```bash
+sleep 10
+```
+
+Test edin:
+
+```bash
+curl -I -H "Host: hrms.localhost" http://127.0.0.1:8000
+```
+
+Başarılı sonuç:
+
+```text
+HTTP/1.1 200 OK
+```
+
+---
+
+## Yerel ağdaki diğer bilgisayarlardan erişim
+
+Sunucu bilgisayarın IP adresini öğren:
+
+```bash
+hostname -I
+```
+
+Örneğin:
+
+```text
+192.168.1.45
+```
+
+Aynı ağdaki başka bir bilgisayardan doğrudan deneyin:
+
+```text
+http://192.168.1.45:8000
+```
+
+Frappe site adı nedeniyle doğrudan IP çalışmazsa, diğer bilgisayarın hosts dosyasına şu satırı ekleyin:
+
+```text
+192.168.1.45 hrms.localhost
+```
+
+Linux ve macOS:
+
+```text
+/etc/hosts
+```
+
+Windows:
+
+```text
+C:\Windows\System32\drivers\etc\hosts
+```
+
+Sonra şu adresi açın:
+
+```text
+http://hrms.localhost:8000
+```
+
+### Linux firewall
+
+Firewall aktifse yalnızca yerel ağ için 8000 portuna izin verin:
+
+```bash
+sudo ufw status
+```
+
+Örneğin ağınız `192.168.1.x` ise:
+
+```bash
+sudo ufw allow from 192.168.1.0/24 to any port 8000 proto tcp
+```
+
+> 8000 portunu doğrudan internete açmayın. İnternet üzerinden erişim için HTTPS, reverse proxy, güçlü parola ve güvenlik yapılandırması gereklidir.
+
+---
+
+## Türkçe dil ayarı
+
+Kullanıcı ayarlarından dili değiştirmeyi deneyin:
+
+```text
+Profil > My Settings > Language > Turkish
+```
+
+Terminalden Administrator kullanıcısının dilini ayarlamak için:
+
+```bash
+docker compose exec frappe bench \
+--site hrms.localhost set-value User Administrator language tr
+```
+
+Önbelleği temizleyin:
+
+```bash
+docker compose exec frappe bench \
+--site hrms.localhost clear-cache
+```
+
+Frappe container'ını yeniden başlatın:
+
+```bash
+docker compose restart frappe
+```
+
+Türkçe çeviri eksikse bazı ekranlar İngilizce kalabilir.
+
+---
+
+## Hata ayıklama
+
+### Container durumları
+
+```bash
+docker compose ps -a
+```
+
+### Frappe logları
+
+```bash
+docker compose logs --tail=200 frappe
+```
+
+### Tüm servislerin logları
+
+```bash
+docker compose logs --tail=200
+```
+
+### 8000 portunu kontrol etme
+
+```bash
+sudo ss -ltnp | grep ':8000'
+```
+
+Beklenen çıktı Docker'a ait olmalıdır:
+
+```text
+docker-proxy ... 0.0.0.0:8000
+```
+
+### Docker servis durumu
+
+```bash
+sudo systemctl status docker
+```
+
+### Docker servisini başlatma
+
+```bash
+sudo systemctl start docker
+```
+
+### Frappe servisini yeniden oluşturma
+
+```bash
+docker compose up -d
+```
+
+> `docker compose down -v` komutunu dikkatli kullanın. `-v` Docker volume'lerini silebilir ve veritabanı kaybına neden olabilir.
+
+---
+
+## Sık görülen uyarılar
+
+### version is obsolete
+
+```text
+the attribute version is obsolete
+```
+
+Bu kritik bir hata değildir. `docker-compose.yml` dosyasındaki eski `version:` satırı silinebilir.
+
+### rename_field not found
+
+```text
+rename_field: ... not found in table
+```
+
+Bu genellikle migration sırasında görülen bilgilendirme mesajıdır. Kurulum sonunda şu mesaj görülüyorsa kurulum tamamlanmıştır:
+
+```text
+Thank you for installing Frappe HR!
+```
+
+### Development server warning
+
+```text
+WARNING: This is a development server
+```
+
+Bu geliştirme ortamı uyarısıdır. Test ve yerel kullanım için sorun değildir. Üretim ortamında reverse proxy, HTTPS, yedekleme ve güvenlik yapılandırması kullanılmalıdır.
+
+---
+
+## Durdurma
+
+```bash
+docker compose stop
+```
+
+## Yeniden başlatma
+
+```bash
+docker compose start
+```
+
+## Container durumlarını görme
+
+```bash
+docker compose ps
+```
+
+## Veritabanı yedeği
+
+Silme veya yeniden kurulum işlemlerinden önce mutlaka yedek alın.
+
+```bash
+docker compose exec frappe bench \
+--site hrms.localhost backup
+```
+
+---
+
+## Lisans
+
+Bu proje Frappe HR ve ilgili açık kaynak bileşenlerin lisanslarına tabidir. Ticari kullanım, dağıtım ve değişiklikler için ilgili lisans dosyalarını inceleyin.
