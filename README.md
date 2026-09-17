@@ -437,7 +437,164 @@ docker compose exec frappe bench \
 --site hrms.localhost backup
 ```
 
----
+2. Kolay başlatma scripti
+
+docker/start.sh dosyasını oluştur:
+bash
+
+nano docker/start.sh
+
+İçeriği:
+bash
+
+#!/usr/bin/env bash
+
+set -e
+
+echo "Frappe HR başlatılıyor..."
+
+if ! command -v docker >/dev/null 2>&1; then
+    echo "HATA: Docker kurulu değil."
+    exit 1
+fi
+
+if docker compose version >/dev/null 2>&1; then
+    COMPOSE="docker compose"
+elif command -v docker-compose >/dev/null 2>&1; then
+    COMPOSE="docker-compose"
+else
+    echo "HATA: Docker Compose bulunamadı."
+    exit 1
+fi
+
+echo "Docker kontrolü yapılıyor..."
+docker info >/dev/null
+
+echo "Container'lar başlatılıyor..."
+$COMPOSE up -d
+
+echo "Kurulum için bekleniyor..."
+sleep 15
+
+echo "Frappe web ayarı yapılıyor..."
+
+$COMPOSE exec -T frappe sh -lc '
+for f in \
+/home/frappe/frappe-bench/Procfile \
+/home/frappe/frappe-bench/frappe-bench/Procfile
+do
+  if [ -f "$f" ]; then
+    sed -i "s|^web:.*|web: bench serve --host 0.0.0.0 --port 8000|" "$f"
+  fi
+done
+'
+
+$COMPOSE restart frappe
+
+echo
+echo "Frappe HR başlatıldı."
+echo
+echo "Yerel erişim:"
+echo "  http://localhost:8000"
+echo "  http://hrms.localhost:8000"
+echo
+echo "Kullanıcı adı: Administrator"
+echo "Varsayılan parola: admin"
+echo
+echo "İlk girişten sonra parolayı değiştirin."
+
+Çalıştırılabilir yap:
+bash
+
+chmod +x docker/start.sh
+
+Kullanıcı artık proje kök dizininden şunu çalıştırabilir:
+bash
+
+./docker/start.sh
+
+3. Hata ayıklama scripti
+
+docker/diagnose.sh dosyası oluştur:
+bash
+
+nano docker/diagnose.sh
+
+İçeriği:
+bash
+
+#!/usr/bin/env bash
+
+set +e
+
+echo "===== Docker sürümü ====="
+docker --version
+docker compose version
+
+echo
+echo "===== Docker servisi ====="
+systemctl is-active docker 2>/dev/null || true
+
+echo
+echo "===== Container durumu ====="
+docker compose -f docker/docker-compose.yml ps -a
+
+echo
+echo "===== 8000 portu ====="
+sudo ss -ltnp | grep ':8000' || true
+
+echo
+echo "===== Host IP adresleri ====="
+hostname -I
+
+echo
+echo "===== Frappe logları ====="
+docker compose -f docker/docker-compose.yml logs --tail=100 frappe
+
+Çalıştırılabilir yap:
+bash
+
+chmod +x docker/diagnose.sh
+
+Kullanım:
+bash
+
+./docker/diagnose.sh
+
+4. version uyarısını kaldırma
+
+docker/docker-compose.yml dosyasının en üstünde şu satır varsa sil:
+yaml
+
+version: "3"
+
+veya:
+yaml
+
+version: "3.7"
+
+Yeni Docker Compose sürümlerinde bu satır kullanılmıyor.
+5. GitHub’a gönderme
+
+Değişiklikleri ekle:
+bash
+
+git add README.md docker/start.sh docker/diagnose.sh docker/docker-compose.yml
+
+Commit oluştur:
+bash
+
+git commit -m "Add easy Docker installation and troubleshooting guide"
+
+Fork’una gönder:
+bash
+
+git push origin develop
+
+Eğer branch adın main ise:
+bash
+
+git push origin main
 
 ## Lisans
 
