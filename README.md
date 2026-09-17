@@ -25,7 +25,7 @@ Bu depo, Frappe HR'nin Docker ile kolay kurulumu için hazırlanmıştır.
 
 ## Gereksinimler
 
-### Linux / Kali Linux
+### Linux / Debian Linux
 
 - Docker Engine
 - Docker Compose
@@ -41,7 +41,7 @@ Docker Desktop kurulduktan sonra PowerShell veya Git Bash kullanılabilir.
 
 ---
 
-## Linux / Kali Linux kurulumu
+## Linux / Debian Linux kurulumu
 
 Docker kurulu değilse:
 
